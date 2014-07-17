@@ -74,6 +74,75 @@ var summed = _(grouped)
     .value();
 
 
+var averaged = _(summed)
+    .map(function(total, i){
+        if(i >= 2){
+            var avg = (summed[i-2].total
+                + summed[i-1].total
+                + summed[i].total)/3;
+            total.avg = avg;
+        }
+
+        return total;
+
+    })
+    .value();
+
+function createDateSeries(fromDate, toDate){
+    var dates = [];
+    var loopDate = new Date(fromDate);
+
+    while(loopDate < toDate){
+        dates.push(loopDate);
+        loopDate = new Date(loopDate).add(1).days();
+    }
+
+    console.log(dates);
+
+    var totalsForPeriod = _(averaged)
+        .filter(function(data){
+            var date = new Date(data.date);
+            return date >= fromDate  && date < toDate;
+        })
+        // .map(function(data, i){
+        //     data.index = i;
+        //     return data;
+        // })
+        .value();
+
+    var paddedTotals = [];
+
+    _(dates).forEach(function(d){
+        var totalForDate = _.find(totalsForPeriod, function(t){
+            return t.date == d;
+        });
+    })
+
+    return totalsForPeriod;
+}
 
 
-console.log(summed);
+
+var recentStart = new Date().add(-30).days();
+console.log(recentStart)
+var recent = createDateSeries(recentStart, new Date());
+
+var oldStart = new Date().add(-60).days();
+console.log(oldStart);
+var old = createDateSeries(oldStart, recentStart);
+
+
+
+// console.log(averaged);
+console.log(recent);
+console.log(old);
+
+
+
+
+
+
+
+
+
+
