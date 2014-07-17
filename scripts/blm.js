@@ -137,6 +137,14 @@ function createDateSeries(fromDate, toDate){
         })
         .value();
 
+    totalsForPeriod.forEach(function(t, i){
+        if(i==0){
+            t.avgSum = Math.abs(t.avg);
+        }else{
+            t.avgSum = totalsForPeriod[i-1].avgSum + Math.abs(t.avg);
+        }
+    });
+
     return totalsForPeriod;
 }
 
@@ -216,6 +224,7 @@ function drawChart(canvasId, plotAttribute){
 window.onload = function(){
     drawChart("raw-chart", "total");
     drawChart("avg-chart", "avg");
+    drawChart("avg-count-up-chart", "avgSum");
 }
 
 
