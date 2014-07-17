@@ -1,0 +1,25 @@
+{
+  "name": "pi-blm",
+  "version": "0.0.0",
+  "description": "beat last month",
+  "main": "index.html",
+  "dependencies": {
+    "connect": "~3.0.1",
+    "gulp-connect": "~2.0.5",
+    "gulp": "~3.8.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hendrikswan/beat-last-month"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hendrikswan/beat-last-month/issues"
+  },
+  "homepage": "https://github.com/hendrikswan/beat-last-month"
+}
