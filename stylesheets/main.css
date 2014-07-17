@@ -13,15 +13,29 @@ body {
 
 #blm-container {
     padding: 50px;
-    margin-left:40px;
-    margin-right:40px;
     margin-top:40px;
     margin-bottom:40px;
     background-color: #fff;
     border: 1px solid #dcdbdb;
+    width: 900px;
+    max-width: 100%;
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+
 }
 
 h3 {
+    font-size: 18px;
+    font-weight: 100;
+}
+
+h2 {
     font-size: 25px;
     font-weight: 100;
+}
+
+.chart {
+    width: 80%;
+    max-width: 100%;
 }

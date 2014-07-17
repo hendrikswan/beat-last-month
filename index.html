@@ -11,11 +11,24 @@
     <script type="text/javascript" src="/bower_components/lodash/dist/lodash.js"></script>
     <script type="text/javascript" src="bower_components/datejs/build/date.js"></script>
     <script type="text/javascript" src="scripts/blm.js"></script>
+    <script type="text/javascript" src="bower_components/chartjs/Chart.js"></script>
 </head>
 <body>
 
 <div id="blm-container">
-    <h3>Beat last month</h3>
+    <h2>Beat last month</h2>
+
+    <h3>Raw expense totals</h3>
+    <div class="chart">
+        <canvas id="raw-chart" height="200" width="800"></canvas>
+    </div>
+
+
+    <h3>Expense averages</h3>
+    <div class="chart">
+        <canvas id="avg-chart" height="200" width="800"></canvas>
+    </div>
+
 </div>
 
 </body>

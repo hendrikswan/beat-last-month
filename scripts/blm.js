@@ -137,15 +137,6 @@ function createDateSeries(fromDate, toDate){
         })
         .value();
 
-    var paddedTotals = [];
-
-    _(dates).forEach(function(d){
-        var totalForDate = _.find(totalsForPeriod, function(t){
-            return t.date == d;
-        });
-
-    })
-
     return totalsForPeriod;
 }
 
@@ -164,6 +155,68 @@ var old = createDateSeries(oldStart, recentStart);
 // // console.log(averaged);
 console.log(recent);
 console.log(old);
+
+
+var cLabels = _(recent)
+    .map(function(d){
+        return d.index + 1;
+    })
+    .value();
+
+
+
+function drawChart(canvasId, plotAttribute){
+
+    var recentPoints = _(recent)
+        .map(function(d){
+            return d[plotAttribute];
+        })
+        .value();
+
+    var oldPoints = _(old)
+        .map(function(d){
+            return d[plotAttribute];
+        })
+        .value();
+
+
+    var lineChartData = {
+        labels : cLabels,
+        datasets : [
+            {
+                label: "Old self",
+                fillColor : "rgba(220,220,220,0.2)",
+                strokeColor : "rgba(220,220,220,1)",
+                pointColor : "rgba(220,220,220,1)",
+                pointStrokeColor : "#fff",
+                pointHighlightFill : "#fff",
+                pointHighlightStroke : "rgba(220,220,220,1)",
+                data : oldPoints
+            },
+            {
+                label: "Recent self",
+                fillColor : "rgba(151,187,205,0.2)",
+                strokeColor : "rgba(151,187,205,1)",
+                pointColor : "rgba(151,187,205,1)",
+                pointStrokeColor : "#fff",
+                pointHighlightFill : "#fff",
+                pointHighlightStroke : "rgba(151,187,205,1)",
+                data : recentPoints
+            }
+        ]
+    };
+
+    var ctx = document.getElementById(canvasId).getContext("2d");
+    new Chart(ctx).Line(lineChartData, {
+        responsive: true,
+    });
+
+}
+
+window.onload = function(){
+    drawChart("raw-chart", "total");
+    drawChart("avg-chart", "avg");
+}
 
 
 
