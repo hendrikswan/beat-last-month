@@ -8,12 +8,12 @@ gulp.task('connect', function() {
 });
 
 gulp.task('reload', function () {
-    gulp.src(['./*.*', './stylesheets/*.*'])
+    gulp.src(['./*.*', './scripts/*.*', './stylesheets/*.*'])
         .pipe(connect.reload());
 });
 
 gulp.task('watch', function () {
-  gulp.watch(['./*.*', './stylesheets/*.*'], ['reload']);
+  gulp.watch(['./*.*', './scripts/*.*', './stylesheets/*.*'], ['reload']);
 });
 
 gulp.task('default', ['connect', 'watch', 'reload']);
