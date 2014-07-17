@@ -36,6 +36,18 @@ function toRealAmount(amount){
     },
 */
 
+var time = {hour:0, minute:0, second: 0};
+var fromDate = new Date().add(-65).days().at(time);
+var toDate = Date.today().at(time);
+
+var dates = [];
+var loopDate = new Date(fromDate);
+
+while(loopDate < toDate){
+    dates.push(loopDate);
+    loopDate = new Date(loopDate).add(1).days();
+}
+
 
 var grouped = _(transactions)
     .filter(function(tx){
@@ -44,18 +56,18 @@ var grouped = _(transactions)
         && tx.categoryName != 'Investments'
         && tx.categoryName != 'Savings'
         && tx.spendingGroupName != 'Transfer'
-        && (tx.accountClass == 'Bank' ||tx.accountClass == 'Credit Card' );
+        && new Date(tx.transactionDate) > fromDate
+        && (tx.accountClass == 'Bank' || tx.accountClass == 'Credit Card' );
         // && tx.categoryName != 'Card Repayments' //card needs to be linked then?
         // && tx.categoryName != 'Home Loan Repayments'; //HL needs to be linked then?
     })
     .map(function(tx){
         return {
-            date: tx.transactionDate,
+            date: new Date(tx.transactionDate).at(time),
             amount: toRealAmount(tx.amount),
 
         }
     })
-    .sortBy(function(tx){return tx.date;})
     .groupBy(function(tx){
         return new Date(tx.date);
     })
@@ -71,15 +83,35 @@ var summed = _(grouped)
 
         return {date: k, total: sum};
     })
+    .sortBy(function(t){
+        return t.date;
+    })
     .value();
 
 
-var averaged = _(summed)
+var padded = _(dates)
+    .map(function(d){
+        var total = _.find(summed, function(t){return t.date.toString() == d.toString();});
+        if(total){
+            // console.log('found total for date %s: %s', d, total.total);
+            return total;
+        }
+
+        return {
+            date: d,
+            total: 0
+        };
+    })
+    .value();
+
+
+
+var averaged = _(padded)
     .map(function(total, i){
         if(i >= 2){
-            var avg = (summed[i-2].total
-                + summed[i-1].total
-                + summed[i].total)/3;
+            var avg = (padded[i-2].total
+                + padded[i-1].total
+                + padded[i].total)/3;
             total.avg = avg;
         }
 
@@ -88,26 +120,21 @@ var averaged = _(summed)
     })
     .value();
 
+console.log(averaged);
+
 function createDateSeries(fromDate, toDate){
-    var dates = [];
-    var loopDate = new Date(fromDate);
-
-    while(loopDate < toDate){
-        dates.push(loopDate);
-        loopDate = new Date(loopDate).add(1).days();
-    }
-
-    console.log(dates);
 
     var totalsForPeriod = _(averaged)
         .filter(function(data){
             var date = new Date(data.date);
-            return date >= fromDate  && date < toDate;
+            var matched = date >= fromDate   && date < toDate;
+            //console.log('%s >= %s  && %s < %s == %s', date, fromDate, date, toDate, matched);
+            return matched;
         })
-        // .map(function(data, i){
-        //     data.index = i;
-        //     return data;
-        // })
+        .map(function(data, i){
+            data.index = i;
+            return data;
+        })
         .value();
 
     var paddedTotals = [];
@@ -116,6 +143,7 @@ function createDateSeries(fromDate, toDate){
         var totalForDate = _.find(totalsForPeriod, function(t){
             return t.date == d;
         });
+
     })
 
     return totalsForPeriod;
@@ -123,17 +151,17 @@ function createDateSeries(fromDate, toDate){
 
 
 
-var recentStart = new Date().add(-30).days();
-console.log(recentStart)
+var recentStart = new Date().at(time).add(-31).days();
+//console.log(recentStart)
 var recent = createDateSeries(recentStart, new Date());
 
-var oldStart = new Date().add(-60).days();
-console.log(oldStart);
+var oldStart = new Date().at(time).add(-61).days();
+// console.log(oldStart);
 var old = createDateSeries(oldStart, recentStart);
 
 
 
-// console.log(averaged);
+// // console.log(averaged);
 console.log(recent);
 console.log(old);
 
