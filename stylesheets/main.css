@@ -32,7 +32,7 @@ h3 {
 
 h2 {
     font-size: 25px;
-    font-weight: 100;
+    font-weight: 300;
 }
 
 .chart {
@@ -43,4 +43,28 @@ h2 {
 canvas {
     max-width: 100%;
 }
+
+.blm-control-container {
+
+    border-radius: 3px;
+    background: #FFFFFF;
+    color: #000;
+}
+
+.blm-control-container .arc {
+    stroke-weight: 0.5;
+    fill: #1d871b;
+}
+
+.blm-control-container .arc2 {
+    stroke-weight:0.5;
+    fill: #ff0000;
+}
+
+
+rect.background {
+    fill: #fff;
+}
+
+
 
