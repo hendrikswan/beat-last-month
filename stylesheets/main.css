@@ -44,21 +44,39 @@ canvas {
     max-width: 100%;
 }
 
-.blm-control-container {
-
+#blm-viz {
     border-radius: 3px;
     background: #FFFFFF;
     color: #000;
 }
 
-.blm-control-container .arc {
+#blm-viz .arc {
     stroke-weight: 0.5;
     fill: #1d871b;
 }
 
-.blm-control-container .arc2 {
+#blm-viz .arc2 {
     stroke-weight:0.5;
     fill: #ff0000;
+}
+
+.blm-control-container {
+    float: left;
+    width: 33%;
+}
+
+.blm-button {
+    font-size: 100px;
+    margin-top: 65px;
+    cursor: pointer;
+}
+
+.blm-button:hover {
+    color: #1d871b;
+}
+
+.blm-button-right {
+    text-align: right;
 }
 
 

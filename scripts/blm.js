@@ -13,7 +13,7 @@ $(function(){
             var toDate = new Date(toDate).at(time);
             var fromDate = new Date(toDate).add(-65).days().at(time);
 
-            $("#date-range").text(fromDate.toString("MMM yyyy") + " to " + toDate.toString("MMM yyyy"));
+            $("#date-range").text(new Date(toDate).add(-30).days().toString("d MMM yyyy") + " to " + toDate.toString("d MMM yyyy"));
 
             var dates = [];
             var loopDate = new Date(fromDate);
@@ -229,7 +229,7 @@ $(function(){
 
 
 
-            var rp2 = radialProgress($(".blm-control-container")[0])
+            var rp2 = radialProgress("#blm-viz")
                     .label("RADIAL 2")
                     .diameter(300)
                     .value(recentTotal/oldTotal * 100)
@@ -239,13 +239,13 @@ $(function(){
 
 
     function renderRecent(){
-        var toDate = new Date().add(-30).days();
+        window.toDate = new Date().add(-30).days();
         if(localStorage.getItem('transactions')){
-            var transactions = JSON.parse(localStorage.getItem('transactions'));
+            window.transactions = JSON.parse(localStorage.getItem('transactions'));
             return renderPage(transactions, toDate);
         }
         $.get('https://api.22seven.com/customer/4e76f2441e56ea0b4cdf71fe/aggregate?version=7', function(aggregateResponse){
-            var transactions = aggregateResponse.transactions;
+            window.transactions = aggregateResponse.transactions;
 
             localStorage.setItem('transactions', JSON.stringify(aggregateResponse.transactions));
             renderPage(transactions, toDate);
@@ -253,6 +253,18 @@ $(function(){
     }
 
     renderRecent();
+
+
+    $(".blm-button-left").click(function(){
+        window.toDate = new Date(window.toDate).add(-1).days();
+        renderPage(window.transactions, window.toDate);
+    });
+
+
+    $(".blm-button-right").click(function(){
+        window.toDate = new Date(window.toDate).add(1).days();
+        renderPage(window.transactions, window.toDate);
+    });
 });
 
 
