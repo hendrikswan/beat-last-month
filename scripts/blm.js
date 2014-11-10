@@ -23,21 +23,19 @@ $(function(){
                 loopDate = new Date(loopDate).add(1).days();
             }
 
-            // console.log(dates);
-            window.transactions = transactions;
 
             var expenseTransactions = _(transactions)
                 .filter(function(tx){
                     //console.log('checking tx. spending group: ' + tx.spendingGroupName  +', category name: ' + tx.categoryName + ', accountClass: ' + tx.accountClass);
                     return tx.spendingGroupName  != 'Income'
                     && tx.spendingGroupName != 'Exceptions'
-                    && tx.categoryName != 'Investments'
-                    && tx.categoryName != 'Savings'
+                    // && tx.categoryName != 'Investments'
+                    // && tx.categoryName != 'Savings'
                     && tx.spendingGroupName != 'Transfer'
                     && new Date(tx.transactionDate) > fromDate && new Date(tx.transactionDate) < toDate
                     && (tx.accountClass == 'Bank' || tx.accountClass == 'Credit Card' )
-                    && tx.categoryName != 'Card Repayments' //card needs to be linked then?
-                    && tx.categoryName != 'Home Loan Repayments'; //HL needs to be linked then?
+                    // && tx.categoryName != 'Card Repayments' //card needs to be linked then?
+                    // && tx.categoryName != 'Home Loan Repayments'; //HL needs to be linked then?
                 })
                 .sortBy(function(tx){return - tx.transactionDate})
                 .map(function(tx){
@@ -182,9 +180,9 @@ $(function(){
                     datasets : [
                         {
                             label: "Old self",
-                            fillColor : "rgba(220,220,220,0.2)",
-                            strokeColor : "rgba(220,220,220,1)",
-                            pointColor : "rgba(220,220,220,1)",
+                            fillColor : "rgba(151,187,205,0.1)",
+                            strokeColor : "rgba(151,187,205,0.3)",
+                           pointColor : "rgba(151,187,205,0.3)",
                             pointStrokeColor : "#fff",
                             pointHighlightFill : "#fff",
                             pointHighlightStroke : "rgba(220,220,220,1)",
@@ -192,7 +190,7 @@ $(function(){
                         },
                         {
                             label: "Recent self",
-                            fillColor : "rgba(151,187,205,0.2)",
+                            fillColor : "rgba(151,187,205,0.5)",
                             strokeColor : "rgba(151,187,205,1)",
                             pointColor : "rgba(151,187,205,1)",
                             pointStrokeColor : "#fff",
@@ -204,9 +202,64 @@ $(function(){
                 };
 
                 var ctx = document.getElementById(canvasId).getContext("2d");
-                new Chart(ctx).Line(lineChartData, {
+                var chart = new Chart(ctx).Line(lineChartData, {
                     responsive: true,
+                    tooltipEvents: ["mousemove", "touchstart", "touchmove"],
+    showTooltips: true,
+
+    // Array - Array of string names to attach tooltip events
+    tooltipEvents: ["mousemove", "touchstart", "touchmove"],
+
+    // String - Tooltip background colour
+    tooltipFillColor: "rgba(0,0,0,0.8)",
+
+    // String - Tooltip label font declaration for the scale label
+    tooltipFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+
+    // Number - Tooltip label font size in pixels
+    tooltipFontSize: 14,
+
+    // String - Tooltip font weight style
+    tooltipFontStyle: "normal",
+
+    // String - Tooltip label font colour
+    tooltipFontColor: "#fff",
+
+    // String - Tooltip title font declaration for the scale label
+    tooltipTitleFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+
+    // Number - Tooltip title font size in pixels
+    tooltipTitleFontSize: 14,
+
+    // String - Tooltip title font weight style
+    tooltipTitleFontStyle: "bold",
+
+    // String - Tooltip title font colour
+    tooltipTitleFontColor: "#fff",
+
+    // Number - pixel width of padding around tooltip text
+    tooltipYPadding: 6,
+
+    // Number - pixel width of padding around tooltip text
+    tooltipXPadding: 6,
+
+    // Number - Size of the caret on the tooltip
+    tooltipCaretSize: 8,
+
+    // Number - Pixel radius of the tooltip border
+    tooltipCornerRadius: 6,
+
+    // Number - Pixel offset from point x to tooltip edge
+    tooltipXOffset: 10,
+
+    // String - Template string for single tooltips
+    tooltipTemplate: "<%if (label){%><%=label%>: <%}%><%= value %>",
                 });
+
+                chart.onclick = function(evt){
+                    var activePoints = myLineChart.getPointsAtEvent(evt);
+                    // => activePoints is an array of points on the canvas that are at the same position as the click event.
+                };
 
             }
 

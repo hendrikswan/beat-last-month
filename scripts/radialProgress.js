@@ -63,6 +63,8 @@ function radialProgress(parent) {
 
             var enter = svg.enter().append("svg").attr("class","radial-svg").append("g");
 
+            svg.select(".arcs").selectAll(".arc2").remove();
+
             measure();
 
             svg.attr("width", __width)
