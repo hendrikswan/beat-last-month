@@ -8,6 +8,7 @@ $(function(){
                 password: $("#password").val()
             }),
             success: function(response){
+                localStorage.clear();
                 localStorage.removeItem('transactions');
                 localStorage.setItem('token', response.sessionToken);
                 localStorage.setItem('customer_id', response.customerId);

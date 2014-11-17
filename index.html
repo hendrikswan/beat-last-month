@@ -3,16 +3,12 @@
 <head>
     <title>beat last month!!</title>
     <link rel="stylesheet" type="text/css" href="stylesheets/main.css">
-    <script type="text/javascript" src="//use.typekit.net/kud8eav.js?q=1"></script>
-    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
-    <script type="text/javascript" src="scripts/ta.js"></script>
     <script type="text/javascript" src="/bower_components/lodash/dist/lodash.js"></script>
     <script type="text/javascript" src="bower_components/datejs/build/date.js"></script>
-    <script type="text/javascript" src="bower_components/d3/d3.js"></script>
     <script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
-    <script type="text/javascript" src="scripts/radialProgress.js"></script>
+    <script type="text/javascript" src="bower_components/db.js/src/db.js"></script>
     <script type="text/javascript" src="scripts/blm.js"></script>
-    <script type="text/javascript" src="bower_components/chartjs/Chart.js"></script>
+    <script type="text/javascript" src="bower_components/async/lib/async.js"></script>
 </head>
 <body>
 
@@ -20,40 +16,14 @@
 
 
 
-    <h2>Beat last month</h2>
+    <h2>HenJam Soup</h2>
 
-    <h3 id="date-range"></h3>
-
-    <a class="blm-control-container blm-button blm-button-left" >
-        <
-    </a>
-
-    <div id="blm-viz" class="blm-control-container">
-    </div>
-
-    <a class="blm-control-container blm-button blm-button-right">
-        >
-    </a>
-
-    <div style="clear: both" />
-
-    <h3>Blm</h3>
-    <div class="chart">
-        <canvas id="avg-count-up-chart" height="200" width="800"></canvas>
-    </div>
-
-    <h3>Expense averages</h3>
-    <div class="chart">
-        <canvas id="avg-chart" height="200" width="800"></canvas>
-    </div>
-
-    <h3>Raw expense totals</h3>
-    <div class="chart">
-        <canvas id="raw-chart" height="200" width="800"></canvas>
-    </div>
+    <button id="do-agg">Import</button>
 
 
+    <input id="payperiod" />
 
+    <button id="btn-pay">Get by pay period</button>
 
 
 </div>
